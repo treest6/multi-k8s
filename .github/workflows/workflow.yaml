@@ -28,13 +28,40 @@ jobs:
         uses: actions/checkout@v4
       - name: Specify docker credentials
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      
       - name: Build client
         run: docker build -t treest/multi-client ./client
+      - name: Upload client artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: multi-client-artifact
+          path: |
+            treest/multi-client
+      
       - name: Build nginx
         run: docker build -t treest/multi-nginx ./nginx
+      - name: Upload nginx artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: multi-nginx-artifact
+          path: |
+            treest/multi-nginx
+      
       - name: Build server
         run: docker build -t treest/multi-server ./server
+      - name: Upload server artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: multi-server-artifact
+          path: |
+            treest/multi-server
+
       - name: Build worker
         run: docker build -t treest/multi-worker ./worker
-
+      - name: Upload worker artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: multi-worker-artifact
+          path: |
+            treest/multi-worker
   
