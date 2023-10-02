@@ -1,0 +1,40 @@
+name: Deploy Multy App
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - "*"
+ 
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Specify docker credentials
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker images
+        run: docker build -t treest/react-test -f ./client/Dockerfile.dev ./client
+      - name: Run tests
+        run: docker run -e CI=true treest/react-test npm test
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Specify docker credentials
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build client
+        run: docker build -t treest/multi-client ./client
+      - name: Build nginx
+        run: docker build -t treest/multi-nginx ./nginx
+      - name: Build server
+        run: docker build -t treest/multi-server ./server
+      - name: Build worker
+        run: docker build -t treest/multi-worker ./worker
+
+  
