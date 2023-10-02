@@ -32,7 +32,7 @@ jobs:
       - name: Build client
         run: docker build -t treest/multi-client ./client
       - name: Upload client artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with: 
           name: multi-client-artifact
           path: |
@@ -41,7 +41,7 @@ jobs:
       - name: Build nginx
         run: docker build -t treest/multi-nginx ./nginx
       - name: Upload nginx artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with: 
           name: multi-nginx-artifact
           path: |
@@ -50,7 +50,7 @@ jobs:
       - name: Build server
         run: docker build -t treest/multi-server ./server
       - name: Upload server artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with: 
           name: multi-server-artifact
           path: |
@@ -59,7 +59,7 @@ jobs:
       - name: Build worker
         run: docker build -t treest/multi-worker ./worker
       - name: Upload worker artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with: 
           name: multi-worker-artifact
           path: |
