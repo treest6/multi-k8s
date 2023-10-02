@@ -19,7 +19,7 @@ jobs:
         run: docker build -t treest/react-test -f ./client/Dockerfile.dev ./client
       - name: Run tests
         run: docker run -e CI=true treest/react-test npm test
-  build:
+  build-prod:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
